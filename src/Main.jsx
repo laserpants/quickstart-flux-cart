@@ -1,9 +1,9 @@
 import Actions from './cart/Actions';
 import { ReduceStore } from 'flux/utils';
 import Dispatcher from './cart/Dispatcher';
-import Cart, { CartComponent } from './cart/Container';
 import { Container } from 'flux/utils';
 import React, { Component } from 'react';
+import Cart, { CartComponent } from './cart';
 
 class SSSSS extends ReduceStore {
   constructor() {
@@ -20,29 +20,6 @@ class SSSSS extends ReduceStore {
 const TTTT = new SSSSS();
 
 // --
-
-function addItem(key, ev) {
-  ev.preventDefault();
-  Actions.addItem(key);
-}
-
-function removeItem(key, ev) {
-  ev.preventDefault();
-  Actions.removeItem(key);
-}
-
-function emptyCart() {
-  Actions.emptyCart();
-}
-
-function resetCart() {
-  Actions.resetCart();
-}
-
-function updateQty(key, quantity, ev) {
-  ev.preventDefault();
-  Actions.updateItem(key, quantity);
-}
 
 function submit() {
   alert('Submit order!');
@@ -65,7 +42,7 @@ function MyFunctionalComponent(props) {
                 <span>{article.Name}</span>
               </td>
               <td>
-                <a href='#' onClick={ev => addItem(key, ev)}>Add</a>
+                <a href='#' onClick={() => Cart.addItem(key)}>Add</a>
               </td>
             </tr>
           )}
@@ -95,13 +72,13 @@ function MyFunctionalComponent(props) {
                     &times; {item.quantity}
                   </td>
                   <td>
-                    <a href='#' onClick={ev => removeItem(key, ev)}>Remove</a>
+                    <a href='#' onClick={() => Cart.removeItem(key)}>Remove</a>
                   </td>
                   <td>
-                    <button onClick={ev => updateQty(key, item.quantity + 1, ev)}>+</button>
+                    <button onClick={() => Cart.updateItem(key, item.quantity + 1)}>+</button>
                   </td>
                   <td>
-                    <button onClick={ev => updateQty(key, item.quantity - 1, ev)}>-</button>
+                    <button onClick={() => Cart.updateItem(key, item.quantity - 1)}>-</button>
                   </td>
                 </tr>
               )}
@@ -123,10 +100,10 @@ function MyFunctionalComponent(props) {
         {!isEmpty && (
           <span>
             <button onClick={() => submit()}>Submit</button>
-            <button onClick={() => emptyCart()}>Empty cart</button>
+            <button onClick={Cart.emptyCart}>Empty cart</button>
           </span>
         )}
-        <button onClick={() => resetCart()}>Reset</button>
+        <button onClick={Cart.resetCart}>Revert</button>
       </div>
     </div>
   );
