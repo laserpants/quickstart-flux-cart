@@ -92,7 +92,8 @@ class MyComponent extends CartComponent {
     const { 
       articles, 
       selection, 
-      isEmpty 
+      isEmpty,
+      foldSelection
     } = this.state;
     console.log(this.state);
     return (
@@ -105,27 +106,51 @@ class MyComponent extends CartComponent {
             </li>
           )}
         </ul>
-        <h2>Cart items</h2>
-        <ul>
-          {selection.entrySeq().map(([key, item]) => 
-            <li key={key}>
-              <span>
-                {item.article.Name} x {item.quantity}
-                <a href='#' onClick={ev => removeItem(key, ev)}>Remove</a>
-                &nbsp;[<a href='#' onClick={ev => updateQty(key, item.quantity + 1, ev)}>+</a>]
-                [<a href='#' onClick={ev => updateQty(key, item.quantity - 1, ev)}>-</a>]
-              </span>
-            </li>
-          )}
-        </ul>
-        <div>
-          {!isEmpty &&
-            <span>
+        {!isEmpty &&
+          <span>
+            <h2>Cart items</h2>
+            <table>
+              <tbody>
+                {selection.entrySeq().map(([key, item]) => 
+                  <tr key={key}>
+                    <td>
+                      {item.article.Name} 
+                    </td>
+                    <td>
+                      {item.article.Price} 
+                    </td>
+                    <td>
+                      &times; {item.quantity}
+                    </td>
+                    <td>
+                      <a href='#' onClick={ev => removeItem(key, ev)}>Remove</a>
+                    </td>
+                    <td>
+                      [<a href='#' onClick={ev => updateQty(key, item.quantity + 1, ev)}>+</a>]
+                    </td>
+                    <td>
+                      [<a href='#' onClick={ev => updateQty(key, item.quantity - 1, ev)}>-</a>]
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td>
+                    Sum:
+                  </td>
+                  <td>
+                    {foldSelection((sum, article, qty) => sum + qty*article.Price, 0)}
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+            <div>
               <button onClick={() => submit()}>Submit</button>
               <button onClick={() => emptyCart()}>Empty cart</button>
-            </span>
-          }
-        </div>
+            </div>
+          </span>
+        }
       </div>
     );
   }
@@ -167,7 +192,7 @@ export default class Main extends Component {
   render() {
     return (
       <span>
-        <MyStoreComponent />
+        {/* <MyStoreComponent /> */}
         <MyStore />
       </span>
     );

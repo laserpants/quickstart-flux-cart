@@ -16,7 +16,11 @@ class Cart extends Component {
     return {
       articles,
       selection,
-      isEmpty: !Selection.getState().size
+      isEmpty: !Selection.getState().size,
+      foldSelection: (func, seed) => selection.reduce(
+        (acc, item) => func(acc, item.article, item.quantity), 
+        seed
+      )
     };
   }
   render() {
