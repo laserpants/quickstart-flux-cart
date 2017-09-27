@@ -70,9 +70,11 @@ function MyFunctionalComponent(props) {
         )}
       </ul>
       <div>
-        <button onClick={() => emptyCart()}>Empty cart</button>
         {!Cart.isEmpty() &&
-          <button onClick={() => submit()}>Submit</button>
+          <span>
+            <button onClick={() => emptyCart()}>Empty cart</button>
+            <button onClick={() => submit()}>Submit</button>
+          </span>
         }
       </div>
     </div>
@@ -113,9 +115,11 @@ class MyComponent extends CartComponent {
           )}
         </ul>
         <div>
-          <button onClick={() => emptyCart()}>Empty cart</button>
           {!Cart.isEmpty() &&
-            <button onClick={() => submit()}>Submit</button>
+            <span>
+              <button onClick={() => submit()}>Submit</button>
+              <button onClick={() => emptyCart()}>Empty cart</button>
+            </span>
           }
         </div>
       </div>
@@ -143,7 +147,9 @@ export default class Main extends Component {
   }
   componentDidMount() {
     const products = {
-      "product-1" : { "Name" : "Canned Unicorn Meat"   , "Price" : "9.99"  }, "product-2" : { "Name" : "Disappearing Ink Pen"  , "Price" : "14.99" }, "product-3" : { "Name" : "USB Rocket Launcher"   , "Price" : "29.99" },
+      "product-1" : { "Name" : "Canned Unicorn Meat"   , "Price" : "9.99"  }, 
+      "product-2" : { "Name" : "Disappearing Ink Pen"  , "Price" : "14.99" }, 
+      "product-3" : { "Name" : "USB Rocket Launcher"   , "Price" : "29.99" },
       "product-4" : { "Name" : "Airzooka Air Gun"      , "Price" : "29.99" },
       "product-5" : { "Name" : "Star Trek Paper Clips" , "Price" : "19.99" }
     };
