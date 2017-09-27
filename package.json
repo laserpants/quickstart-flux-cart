@@ -12,7 +12,10 @@
     "immutable": "^3.8.1",
     "path": "^0.12.7",
     "react": "^15.6.1",
+    "react-addons-css-transition-group": "^15.6.2",
+    "react-addons-transition-group": "^15.6.2",
     "react-dom": "^15.6.1",
+    "reactstrap": "^4.8.0",
     "webpack": "^3.6.0",
     "webpack-dev-server": "^2.8.2"
   },
