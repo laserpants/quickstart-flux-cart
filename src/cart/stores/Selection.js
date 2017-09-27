@@ -6,6 +6,7 @@ import Immutable from 'immutable';
 class Selection extends ReduceStore {
   constructor() {
     super(Dispatcher);
+    this.initialSelection = Immutable.Map();
   }
   getInitialState() {
     return Immutable.Map();
@@ -30,8 +31,8 @@ class Selection extends ReduceStore {
           quantity: current.quantity + (action.quantity || 1)
         });
       }
-      case ActionTypes.REVERT:
-        return state;
+      case ActionTypes.RESET:
+        return this.initialSelection;
       case ActionTypes.REMOVE_ITEM:
         if (!action.key) {
           return state;
@@ -54,6 +55,17 @@ class Selection extends ReduceStore {
       case ActionTypes.EMPTY:
         return Immutable.Map();
       case ActionTypes.INITIALIZE:
+        if (action.selection) {
+          this.initialSelection = Immutable
+          .Map(action.selection)
+          .mapEntries(([key, item]) => {
+            return [key, { 
+              article: action.articles[key] || item.article, 
+              quantity: item.quantity
+            }];
+          });
+          return this.initialSelection;
+        }
       default:
         return state;
     }

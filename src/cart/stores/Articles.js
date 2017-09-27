@@ -13,7 +13,7 @@ class Articles extends ReduceStore {
   reduce(state, action) {
     switch (action.type) {
       case ActionTypes.INITIALIZE:
-        return Immutable.Map(action.data);
+        return Immutable.Map(action.articles);
       case ActionTypes.INSERT_ARTICLE:
         if (!action.key || state.has(action.key)) {
           return state;

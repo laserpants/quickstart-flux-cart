@@ -35,6 +35,10 @@ function emptyCart() {
   Actions.emptyCart();
 }
 
+function resetCart() {
+  Actions.resetCart();
+}
+
 function updateQty(key, quantity, ev) {
   ev.preventDefault();
   Actions.updateItem(key, quantity);
@@ -70,12 +74,12 @@ function MyFunctionalComponent(props) {
         )}
       </ul>
       <div>
-        {!props.isEmpty &&
+        {!props.isEmpty && (
           <span>
             <button onClick={() => emptyCart()}>Empty cart</button>
             <button onClick={() => submit()}>Submit</button>
           </span>
-        }
+        )}
       </div>
     </div>
   );
@@ -98,18 +102,31 @@ class MyComponent extends CartComponent {
     console.log(this.state);
     return (
       <div>
-        <ul>
-          {articles.entrySeq().map(([key, article]) => 
-            <li key={key}>
-              <span>{article.Name}</span>
-              <a href='#' onClick={ev => addItem(key, ev)}>Add</a>
-            </li>
-          )}
-        </ul>
-        {!isEmpty &&
+        <table>
+          <tbody>
+            {articles.entrySeq().map(([key, article]) => 
+              <tr key={key}>
+                <td>
+                  <span>{article.Name}</span>
+                </td>
+                <td>
+                  <a href='#' onClick={ev => addItem(key, ev)}>Add</a>
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+        {!isEmpty && (
           <span>
             <h2>Cart items</h2>
             <table>
+              <thead>
+                <tr>
+                  <th>Article</th>
+                  <th>Price</th>
+                  <th>Qty</th>
+                </tr>
+              </thead>
               <tbody>
                 {selection.entrySeq().map(([key, item]) => 
                   <tr key={key}>
@@ -126,10 +143,10 @@ class MyComponent extends CartComponent {
                       <a href='#' onClick={ev => removeItem(key, ev)}>Remove</a>
                     </td>
                     <td>
-                      [<a href='#' onClick={ev => updateQty(key, item.quantity + 1, ev)}>+</a>]
+                      <button onClick={ev => updateQty(key, item.quantity + 1, ev)}>+</button>
                     </td>
                     <td>
-                      [<a href='#' onClick={ev => updateQty(key, item.quantity - 1, ev)}>-</a>]
+                      <button onClick={ev => updateQty(key, item.quantity - 1, ev)}>-</button>
                     </td>
                   </tr>
                 )}
@@ -145,12 +162,17 @@ class MyComponent extends CartComponent {
                 </tr>
               </tfoot>
             </table>
-            <div>
+          </span>
+        )}
+        <div>
+          {!isEmpty && (
+            <span>
               <button onClick={() => submit()}>Submit</button>
               <button onClick={() => emptyCart()}>Empty cart</button>
-            </div>
-          </span>
-        }
+            </span>
+          )}
+          <button onClick={() => resetCart()}>Reset</button>
+        </div>
       </div>
     );
   }
@@ -183,9 +205,8 @@ export default class Main extends Component {
       "product-5" : { "Name" : "Star Trek Paper Clips" , "Price" : "19.99" }
     };
     const selection = {
-      "product-1" : {
-        quantity: 2
-      }
+      "product-1" : { quantity: 2 },
+      "product-3" : { quantity: 3 }
     };
     Actions.initialize(products, selection);
   }

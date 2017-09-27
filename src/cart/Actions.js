@@ -41,10 +41,16 @@ const Actions = {
       type: ActionTypes.EMPTY
     });
   },
-  initialize(data) {
+  resetCart() {
+    Dispatcher.dispatch({
+      type: ActionTypes.RESET
+    });
+  },
+  initialize(articles, selection) {
     Dispatcher.dispatch({
       type: ActionTypes.INITIALIZE,
-      data
+      articles,
+      selection
     });
   }
 };
