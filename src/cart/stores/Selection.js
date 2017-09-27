@@ -15,7 +15,7 @@ class Selection extends ReduceStore {
     if ('number' !== typeof(qty) || qty < 0) {
       return false;
     }
-    return qty | 0;
+    return Number.parseInt(qty);
   }
   reduce(state, action) {
     switch (action.type) {

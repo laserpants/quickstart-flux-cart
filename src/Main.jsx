@@ -49,37 +49,84 @@ function submit() {
 }
 
 function MyFunctionalComponent(props) {
-  console.log(props);
+  const { 
+    articles, 
+    selection, 
+    isEmpty,
+    foldSelection
+  } = props;
   return (
     <div>
-      <ul>
-        {props.articles.entrySeq().map(([key, article]) => 
-          <li key={key}>
-            <span>{article.Name}</span>
-            <a href='#' onClick={ev => addItem(key, ev)}>Add</a>
-          </li>
-        )}
-      </ul>
-      <h2>Cart items</h2>
-      <ul>
-        {props.selection.entrySeq().map(([key, item]) => 
-          <li key={key}>
-            <span>
-              {item.article.Name} x {item.quantity}
-              <a href='#' onClick={ev => removeItem(key, ev)}>Remove</a>
-              &nbsp;[<a href='#' onClick={ev => updateQty(key, item.quantity + 1, ev)}>+</a>]
-              [<a href='#' onClick={ev => updateQty(key, item.quantity - 1, ev)}>-</a>]
-            </span>
-          </li>
-        )}
-      </ul>
+      <table>
+        <tbody>
+          {articles.entrySeq().map(([key, article]) => 
+            <tr key={key}>
+              <td>
+                <span>{article.Name}</span>
+              </td>
+              <td>
+                <a href='#' onClick={ev => addItem(key, ev)}>Add</a>
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+      {!isEmpty && (
+        <span>
+          <h2>Cart items</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Article</th>
+                <th>Price</th>
+                <th>Qty</th>
+              </tr>
+            </thead>
+            <tbody>
+              {selection.entrySeq().map(([key, item]) => 
+                <tr key={key}>
+                  <td>
+                    {item.article.Name} 
+                  </td>
+                  <td>
+                    {item.article.Price} 
+                  </td>
+                  <td>
+                    &times; {item.quantity}
+                  </td>
+                  <td>
+                    <a href='#' onClick={ev => removeItem(key, ev)}>Remove</a>
+                  </td>
+                  <td>
+                    <button onClick={ev => updateQty(key, item.quantity + 1, ev)}>+</button>
+                  </td>
+                  <td>
+                    <button onClick={ev => updateQty(key, item.quantity - 1, ev)}>-</button>
+                  </td>
+                </tr>
+              )}
+            </tbody>
+            <tfoot>
+              <tr>
+                <td>
+                  Sum:
+                </td>
+                <td>
+                  {foldSelection((sum, article, qty) => sum + qty*article.Price, 0).toFixed(2)}
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </span>
+      )}
       <div>
-        {!props.isEmpty && (
+        {!isEmpty && (
           <span>
-            <button onClick={() => emptyCart()}>Empty cart</button>
             <button onClick={() => submit()}>Submit</button>
+            <button onClick={() => emptyCart()}>Empty cart</button>
           </span>
         )}
+        <button onClick={() => resetCart()}>Reset</button>
       </div>
     </div>
   );
@@ -93,88 +140,7 @@ class MyComponent extends CartComponent {
     return {x: TTTT.getState()};
   }
   render() {
-    const { 
-      articles, 
-      selection, 
-      isEmpty,
-      foldSelection
-    } = this.state;
-    console.log(this.state);
-    return (
-      <div>
-        <table>
-          <tbody>
-            {articles.entrySeq().map(([key, article]) => 
-              <tr key={key}>
-                <td>
-                  <span>{article.Name}</span>
-                </td>
-                <td>
-                  <a href='#' onClick={ev => addItem(key, ev)}>Add</a>
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-        {!isEmpty && (
-          <span>
-            <h2>Cart items</h2>
-            <table>
-              <thead>
-                <tr>
-                  <th>Article</th>
-                  <th>Price</th>
-                  <th>Qty</th>
-                </tr>
-              </thead>
-              <tbody>
-                {selection.entrySeq().map(([key, item]) => 
-                  <tr key={key}>
-                    <td>
-                      {item.article.Name} 
-                    </td>
-                    <td>
-                      {item.article.Price} 
-                    </td>
-                    <td>
-                      &times; {item.quantity}
-                    </td>
-                    <td>
-                      <a href='#' onClick={ev => removeItem(key, ev)}>Remove</a>
-                    </td>
-                    <td>
-                      <button onClick={ev => updateQty(key, item.quantity + 1, ev)}>+</button>
-                    </td>
-                    <td>
-                      <button onClick={ev => updateQty(key, item.quantity - 1, ev)}>-</button>
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-              <tfoot>
-                <tr>
-                  <td>
-                    Sum:
-                  </td>
-                  <td>
-                    {foldSelection((sum, article, qty) => sum + qty*article.Price, 0)}
-                  </td>
-                </tr>
-              </tfoot>
-            </table>
-          </span>
-        )}
-        <div>
-          {!isEmpty && (
-            <span>
-              <button onClick={() => submit()}>Submit</button>
-              <button onClick={() => emptyCart()}>Empty cart</button>
-            </span>
-          )}
-          <button onClick={() => resetCart()}>Reset</button>
-        </div>
-      </div>
-    );
+    return MyFunctionalComponent(this.state);
   }
 }
 
@@ -213,7 +179,10 @@ export default class Main extends Component {
   render() {
     return (
       <span>
-        {/* <MyStoreComponent /> */}
+        <MyStoreComponent /> 
+        <hr />
+        <hr />
+        <hr />
         <MyStore />
       </span>
     );
