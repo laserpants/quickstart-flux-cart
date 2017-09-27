@@ -26,6 +26,11 @@ function addItem(key, ev) {
   Actions.addItem(key);
 }
 
+function removeItem(key, ev) {
+  ev.preventDefault();
+  Actions.removeItem(key);
+}
+
 function MyFunctionalComponent(props) {
   console.log(props);
   return (
@@ -40,9 +45,12 @@ function MyFunctionalComponent(props) {
       </ul>
       <h2>Cart items</h2>
       <ul>
-        {props.selection.entrySeq().map(([key, article]) => 
+        {props.selection.entrySeq().map(([key, item]) => 
           <li key={key}>
-            <span>{article.Name}</span>
+            <span>
+              {item.article.Name} x {item.quantity}
+              <a href='#' onClick={ev => removeItem(key, ev)}>Remove</a>
+            </span>
           </li>
         )}
       </ul>
@@ -72,9 +80,14 @@ class MyComponent extends CartComponent {
         </ul>
         <h2>Cart items</h2>
         <ul>
-          {selection.entrySeq().map(([key, article]) => 
+          {selection.entrySeq().map(([key, item]) => 
             <li key={key}>
-              <span>{article.Name}</span>
+              <span>
+                {item.article.Name} x {item.quantity}
+                <a href='#' onClick={ev => removeItem(key, ev)}>Remove</a>
+                &nbsp;[<a href='#' onClick={ev => removeItem(key, ev)}>+</a>]
+                [<a href='#' onClick={ev => removeItem(key, ev)}>-</a>]
+              </span>
             </li>
           )}
         </ul>

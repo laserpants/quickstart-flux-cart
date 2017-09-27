@@ -16,15 +16,22 @@ class Selection extends ReduceStore {
         if (!action.key) {
           return state;
         }
+        const current = state.has(action.key) 
+          ? state.get(action.key)
+          : { article: action.article, quantity: 0 };
         return state.set(action.key, {
-          Name: 'hello'
+          article: action.article || current.article,
+          quantity: current.quantity + (action.quantity || 1)
         });
       case ActionTypes.INITIALIZE:
         return state;
       case ActionTypes.REVERT:
         return state;
       case ActionTypes.REMOVE_ITEM:
-        return state;
+        if (!action.key) {
+          return state;
+        }
+        return state.remove(action.key);
       case ActionTypes.UPDATE_ITEM:
         return state;
       case ActionTypes.RESET:
