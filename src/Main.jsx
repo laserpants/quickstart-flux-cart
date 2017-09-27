@@ -4,6 +4,7 @@ import Dispatcher from './cart/Dispatcher';
 import Cart, { CartComponent } from './cart/Container';
 import { Container } from 'flux/utils';
 import React, { Component } from 'react';
+import { Table } from 'reactstrap';
 
 class SSSSS extends ReduceStore {
   constructor() {
@@ -57,7 +58,7 @@ function MyFunctionalComponent(props) {
   } = props;
   return (
     <div>
-      <table>
+      <Table>
         <tbody>
           {articles.entrySeq().map(([key, article]) => 
             <tr key={key}>
@@ -70,11 +71,11 @@ function MyFunctionalComponent(props) {
             </tr>
           )}
         </tbody>
-      </table>
+      </Table>
       {!isEmpty && (
         <span>
           <h2>Cart items</h2>
-          <table>
+          <Table>
             <thead>
               <tr>
                 <th>Article</th>
@@ -116,7 +117,7 @@ function MyFunctionalComponent(props) {
                 </td>
               </tr>
             </tfoot>
-          </table>
+          </Table>
         </span>
       )}
       <div>
