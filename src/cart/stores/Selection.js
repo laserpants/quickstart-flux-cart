@@ -10,9 +10,15 @@ class Selection extends ReduceStore {
   getInitialState() {
     return Immutable.Map();
   }
+  validateQuantity(qty) {
+    if ('number' !== typeof(qty) || qty < 0) {
+      return false;
+    }
+    return qty | 0;
+  }
   reduce(state, action) {
     switch (action.type) {
-      case ActionTypes.ADD_ITEM:
+      case ActionTypes.ADD_ITEM: {
         if (!action.key) {
           return state;
         }
@@ -23,8 +29,7 @@ class Selection extends ReduceStore {
           article: action.article || current.article,
           quantity: current.quantity + (action.quantity || 1)
         });
-      case ActionTypes.INITIALIZE:
-        return state;
+      }
       case ActionTypes.REVERT:
         return state;
       case ActionTypes.REMOVE_ITEM:
@@ -32,10 +37,23 @@ class Selection extends ReduceStore {
           return state;
         }
         return state.remove(action.key);
-      case ActionTypes.UPDATE_ITEM:
-        return state;
+      case ActionTypes.UPDATE_ITEM: {
+        if (!action.key || !state.has(action.key)) {
+          return state;
+        }
+        const current = state.get(action.key);
+        const quantity = validateQuantity(action.quantity);
+        if (0 === quantity) {
+          return state.remove(action.key);
+        } 
+        return state.set(action.key, {
+          article: action.article || current.article,
+          quantity: quantity || current.quantity
+        });
+      }
       case ActionTypes.RESET:
-        return state;
+        return Immutable.Map();
+      case ActionTypes.INITIALIZE:
       default:
         return state;
     }

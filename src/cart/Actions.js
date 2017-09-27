@@ -28,10 +28,12 @@ const Actions = {
       key
     });
   },
-  updateItem(key) {
+  updateItem(key, quantity, article) {
     Dispatcher.dispatch({
       type: ActionTypes.UPDATE_ITEM,
-      key
+      key,
+      quantity,
+      article
     });
   },
   reset() {

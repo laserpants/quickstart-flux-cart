@@ -31,6 +31,15 @@ function removeItem(key, ev) {
   Actions.removeItem(key);
 }
 
+function resetCart() {
+  Actions.reset();
+}
+
+function updateQty(key, quantity, ev) {
+  ev.preventDefault();
+  Actions.updateItem(key, quantity);
+}
+
 function MyFunctionalComponent(props) {
   console.log(props);
   return (
@@ -50,10 +59,15 @@ function MyFunctionalComponent(props) {
             <span>
               {item.article.Name} x {item.quantity}
               <a href='#' onClick={ev => removeItem(key, ev)}>Remove</a>
+              &nbsp;[<a href='#' onClick={ev => updateQty(key, item.quantity + 1, ev)}>+</a>]
+              [<a href='#' onClick={ev => updateQty(key, item.quantity - 1, ev)}>-</a>]
             </span>
           </li>
         )}
       </ul>
+      <div>
+        <button onClick={() => resetCart()}>Empty cart</button>
+      </div>
     </div>
   );
 }
@@ -85,12 +99,15 @@ class MyComponent extends CartComponent {
               <span>
                 {item.article.Name} x {item.quantity}
                 <a href='#' onClick={ev => removeItem(key, ev)}>Remove</a>
-                &nbsp;[<a href='#' onClick={ev => removeItem(key, ev)}>+</a>]
-                [<a href='#' onClick={ev => removeItem(key, ev)}>-</a>]
+                &nbsp;[<a href='#' onClick={ev => updateQty(key, item.quantity + 1, ev)}>+</a>]
+                [<a href='#' onClick={ev => updateQty(key, item.quantity - 1, ev)}>-</a>]
               </span>
             </li>
           )}
         </ul>
+        <div>
+          <button onClick={() => resetCart()}>Empty cart</button>
+        </div>
       </div>
     );
   }
