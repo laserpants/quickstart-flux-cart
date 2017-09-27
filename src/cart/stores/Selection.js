@@ -42,7 +42,7 @@ class Selection extends ReduceStore {
           return state;
         }
         const current = state.get(action.key);
-        const quantity = validateQuantity(action.quantity);
+        const quantity = this.validateQuantity(action.quantity);
         if (0 === quantity) {
           return state.remove(action.key);
         } 
@@ -51,7 +51,7 @@ class Selection extends ReduceStore {
           quantity: quantity || current.quantity
         });
       }
-      case ActionTypes.RESET:
+      case ActionTypes.EMPTY:
         return Immutable.Map();
       case ActionTypes.INITIALIZE:
       default:

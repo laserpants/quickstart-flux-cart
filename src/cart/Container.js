@@ -37,5 +37,8 @@ export default {
       return Object.assign({}, state, Cart.calculateState());
     };
     return Container.createFunctional(component, getStores, calculateState);
+  },
+  isEmpty() {
+    return !Selection.getState().size;
   }
 };

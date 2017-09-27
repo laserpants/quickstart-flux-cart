@@ -36,14 +36,9 @@ const Actions = {
       article
     });
   },
-  reset() {
+  emptyCart() {
     Dispatcher.dispatch({
-      type: ActionTypes.RESET
-    });
-  },
-  revert() {
-    Dispatcher.dispatch({
-      type: ActionTypes.REVERT
+      type: ActionTypes.EMPTY
     });
   },
   initialize(data) {
