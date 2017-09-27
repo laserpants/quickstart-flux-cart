@@ -11,9 +11,12 @@ class Cart extends Component {
     ];
   }
   static calculateState() {
+    const selection = Selection.getState();
+    const articles = Articles.getState();
     return {
-      articles: Articles.getState(),
-      selection: Selection.getState()
+      articles,
+      selection,
+      isEmpty: !Selection.getState().size
     };
   }
   render() {
@@ -37,8 +40,5 @@ export default {
       return Object.assign({}, state, Cart.calculateState());
     };
     return Container.createFunctional(component, getStores, calculateState);
-  },
-  isEmpty() {
-    return !Selection.getState().size;
   }
 };

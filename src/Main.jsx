@@ -70,7 +70,7 @@ function MyFunctionalComponent(props) {
         )}
       </ul>
       <div>
-        {!Cart.isEmpty() &&
+        {!props.isEmpty &&
           <span>
             <button onClick={() => emptyCart()}>Empty cart</button>
             <button onClick={() => submit()}>Submit</button>
@@ -89,7 +89,11 @@ class MyComponent extends CartComponent {
     return {x: TTTT.getState()};
   }
   render() {
-    const { articles, selection } = this.state;
+    const { 
+      articles, 
+      selection, 
+      isEmpty 
+    } = this.state;
     console.log(this.state);
     return (
       <div>
@@ -115,7 +119,7 @@ class MyComponent extends CartComponent {
           )}
         </ul>
         <div>
-          {!Cart.isEmpty() &&
+          {!isEmpty &&
             <span>
               <button onClick={() => submit()}>Submit</button>
               <button onClick={() => emptyCart()}>Empty cart</button>
@@ -153,7 +157,12 @@ export default class Main extends Component {
       "product-4" : { "Name" : "Airzooka Air Gun"      , "Price" : "29.99" },
       "product-5" : { "Name" : "Star Trek Paper Clips" , "Price" : "19.99" }
     };
-    Actions.initialize(products);
+    const selection = {
+      "product-1" : {
+        quantity: 2
+      }
+    };
+    Actions.initialize(products, selection);
   }
   render() {
     return (
