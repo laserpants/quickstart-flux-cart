@@ -22,7 +22,7 @@ const TTTT = new SSSSS();
 // --
 
 function submit() {
-  alert('Submit order!');
+  alert(JSON.stringify(Cart.getSelection()));
 }
 
 function MyFunctionalComponent(props) {
