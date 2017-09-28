@@ -27,8 +27,8 @@ function submit() {
 
 function MyFunctionalComponent(props) {
   const { 
-    articles, 
-    selection, 
+    mapArticles, 
+    mapSelection, 
     isEmpty,
     foldSelection
   } = props;
@@ -36,7 +36,7 @@ function MyFunctionalComponent(props) {
     <div>
       <table>
         <tbody>
-          {articles.entrySeq().map(([key, article]) => 
+          {mapArticles((key, article) => 
             <tr key={key}>
               <td>
                 <span>{article.Name}</span>
@@ -60,25 +60,25 @@ function MyFunctionalComponent(props) {
               </tr>
             </thead>
             <tbody>
-              {selection.entrySeq().map(([key, item]) => 
+              {mapSelection((key, quantity, article) => 
                 <tr key={key}>
                   <td>
-                    {item.article.Name} 
+                    {article.Name} 
                   </td>
                   <td>
-                    {item.article.Price} 
+                    {article.Price} 
                   </td>
                   <td>
-                    &times; {item.quantity}
+                    &times; {quantity}
                   </td>
                   <td>
                     <a href='#' onClick={() => Cart.removeItem(key)}>Remove</a>
                   </td>
                   <td>
-                    <button onClick={() => Cart.updateItem(key, item.quantity + 1)}>+</button>
+                    <button onClick={() => Cart.updateItem(key, quantity + 1)}>+</button>
                   </td>
                   <td>
-                    <button onClick={() => Cart.updateItem(key, item.quantity - 1)}>-</button>
+                    <button onClick={() => Cart.updateItem(key, quantity - 1)}>-</button>
                   </td>
                 </tr>
               )}
@@ -99,7 +99,7 @@ function MyFunctionalComponent(props) {
       <div>
         {!isEmpty && (
           <span>
-            <button onClick={() => submit()}>Submit</button>
+            <button onClick={submit}>Submit</button>
             <button onClick={Cart.emptyCart}>Empty cart</button>
           </span>
         )}

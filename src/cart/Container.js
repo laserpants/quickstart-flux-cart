@@ -18,9 +18,14 @@ class Cart extends Component {
       selection,
       isEmpty: !Selection.getState().size,
       foldSelection: (func, seed) => selection.reduce(
-        (acc, item) => func(acc, item.article, item.quantity), 
+        (acc, { article, quantity }) => func(acc, article, quantity), 
         seed
-      )
+      ),
+      mapArticles: (f, ...args) => 
+        articles.entrySeq().map(([key, article]) => f(key, article), ...args),
+      mapSelection: (f, ...args) => 
+        selection.entrySeq().map(([key, { quantity, article }]) => 
+          f(key, quantity, article), ...args),
     };
   }
   render() {
